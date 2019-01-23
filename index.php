@@ -1,7 +1,7 @@
 <?php
 // Page demo
 require_once("./MetaPage.php");
-$data = new SocialMetaTags();
+$data = new SocialMetaTags([]);
 $url =  isset($_POST["urlPage"]) ? $_POST["urlPage"] :"https://www.google.ch/";
 var_dump($data->getTags($url));
 ?>

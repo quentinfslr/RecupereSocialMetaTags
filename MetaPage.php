@@ -9,6 +9,7 @@
 class SocialMetaTags {
 
     public $ordre = [];
+	private $html;
 
     /**
      * constructeur objet MetaPage
@@ -23,6 +24,32 @@ class SocialMetaTags {
         $this->ordre = $order;       
     }
 
+    /**
+     * Retourne le meta donnes d'une page mais ignore pas les meta sans le champ "name" (contrairement a get_meta_tags)
+     * 
+     * ressource : https://github.com/tommyku/php-html-meta-parser 
+     * @param [type] $url
+     * @return void
+     */
+    private function getMetaTags($url) {
+        $html = new DOMDocument;
+		libxml_use_internal_errors(true);
+		$html->loadHTML(file_get_contents($url));
+		$metatags = $html->getElementsByTagName("meta");
+		$tmeta = array();
+		for ($i=0; $i<$metatags->length; ++$i) {
+			$item = $metatags->item($i);
+			$name = $item->getAttribute('name');
+			
+			if (empty($name)) {
+				$tmeta[$item->getAttribute('property')] = $item->getAttribute('content');
+			}
+			else {
+				$tmeta[$name] = $item->getAttribute('content');
+			}
+		}
+		return $tmeta;
+	}
     /**
      * Recuper le title de la page
      *
@@ -52,7 +79,7 @@ class SocialMetaTags {
      */
     public function getTags($url){
         if($url!=""){
-            $arrMeta = get_meta_tags($url); 
+            $arrMeta = self::getMetaTags($url); 
 
             $arrMetaFormate = [];
      
