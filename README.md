@@ -1,2 +1,2 @@
-# getMetaFromPage
-récupère les métadonnées d'une page 
+# Recupere métadonnées d'une page
+récupère les  "Social Meta Tags" d'une page web
