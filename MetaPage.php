@@ -34,7 +34,7 @@ class SocialMetaTags {
     private function getMetaTags($url) {
         $html = new DOMDocument;
 		libxml_use_internal_errors(true);
-		$html->loadHTML(file_get_contents($url));
+        $html->loadHTML(mb_convert_encoding(file_get_contents($url), 'HTML-ENTITIES', 'UTF-8')); 
 		$metatags = $html->getElementsByTagName("meta");
 		$tmeta = array();
 		for ($i=0; $i<$metatags->length; ++$i) {
